@@ -56,7 +56,7 @@ namespace Journal.Controllers
             _context.Journeys.Add(journey); // add hàng dữ liệu mới vào table
             await _context.SaveChangesAsync(); // lưu lại table
             //return CreatedAtRoute("Get Journey", new { id = journey.Id }, journey); // bắn ra http 201 created. id để có thể Get dữ liệu vừa tạo thêm
-            return NoContent(); // 201
+            return CreatedAtAction(nameof(Get), journey.Id);
         }
 
         [HttpDelete]
