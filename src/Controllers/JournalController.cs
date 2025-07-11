@@ -27,25 +27,17 @@ namespace Journal.Controllers
             var journeys = _context.Journeys.AsQueryable(); //lấy table ra, nhưng chưa đâm xuống Database
             ////Query ID
             if (id.HasValue)
-            {
                 journeys = journeys.Where(x => x.Id == id);
-            }
             ////Query Content
             if (!string.IsNullOrEmpty(content))
-            {
                 journeys = journeys.Where(x => x.Content.Contains(content));
-            }
             ////Query Date
             if (date.HasValue)
-            {
                 journeys = journeys.Where(x => x.Date == date);
-            }
 
             //chia trang
             if (pageSize.HasValue && pageIndex.HasValue && pageSize > 0 && pageIndex >= 0)
-            {
                 journeys = journeys.Skip(pageIndex.Value * pageSize.Value).Take(pageSize.Value);
-            }
 
             var result = await journeys.AsNoTracking().ToListAsync();
             return Ok(result);
