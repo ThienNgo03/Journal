@@ -16,5 +16,6 @@ namespace Journal
         //        .Property(j => j.Date)
         //        .HasColumnType("date"); // 👈 Cấu hình kiểu SQL là "date"
         //}
+        public DbSet<Gadgets.Table> Gadgets { get; set; }
     }
 }
