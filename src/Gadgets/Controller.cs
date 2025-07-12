@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace Journal.Gadgets;
 
@@ -12,10 +13,36 @@ public class Controller:ControllerBase
         _context = context;
     }
     [HttpGet]
-    public IActionResult Get()
+    public async Task<IActionResult> Get([FromBody] Get.Parameters parameters)
     {
-        var gadgets = _context.Gadgets.ToList();
-        return Ok(gadgets);
+        var gadgets =_context.Gadgets.AsQueryable();
+        if(parameters.GadgetId.HasValue)
+        {
+            gadgets = gadgets.Where(g => g.GadgetId == parameters.GadgetId.Value);
+        }
+        if(!string.IsNullOrEmpty(parameters.Name))
+        {
+            gadgets = gadgets.Where(g => g.Name.Contains(parameters.Name, StringComparison.OrdinalIgnoreCase));
+        }
+        if(!string.IsNullOrEmpty(parameters.Brand))
+        {
+            gadgets = gadgets.Where(g => g.Brand.Contains(parameters.Brand, StringComparison.OrdinalIgnoreCase));
+        }
+        if(!string.IsNullOrEmpty(parameters.Description))
+        {
+            gadgets = gadgets.Where(g => g.Description.Contains(parameters.Description, StringComparison.OrdinalIgnoreCase));
+        }
+        
+        var gadgetList = await gadgets.ToListAsync();
+        if (parameters.PageIndex.HasValue && parameters.PageIndex > 0 &&
+            parameters.PageSize.HasValue && parameters.PageSize > 0)
+        {
+            gadgetList = gadgetList
+                .Skip((parameters.PageIndex.Value - 1) * parameters.PageSize.Value)
+                .Take(parameters.PageSize.Value)
+                .ToList();
+        }
+        return Ok(gadgetList);
     }
     [HttpPost("gadgets")]
     public async Task<IActionResult> Create([FromBody] Post.Payload gadget)
