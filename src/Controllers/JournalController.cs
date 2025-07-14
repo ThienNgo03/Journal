@@ -61,9 +61,10 @@ namespace Journal.Controllers
 
         [HttpDelete]
 
-        public async Task<IActionResult> Delete([FromQuery] Guid id) // bắt buộc phải có id để tìm nên không cần dấu ?
+        public async Task<IActionResult> Delete([FromQuery] Guid id, [FromQuery] bool deleteNotes) // bắt buộc phải có id để tìm nên không cần dấu ?
         {
-
+            // 
+            
             var journey = await _context.Journeys.FindAsync(id);// chờ để ASP.NET tìm và lấy ra data với id được cho, hàm FindAsync chỉ để tìm khóa chính của bảng
             // tìm theo ngày??
             if (journey == null) //nếu data vẫn là null sau khi tìm nghĩa là không có data với id được cho
@@ -71,6 +72,10 @@ namespace Journal.Controllers
                 return NotFound();
             }
             _context.Journeys.Remove(journey); //xóa data tìm được khỏi table hiện tại
+            if (deleteNotes)
+            {
+                await _context.Notes.Where(x => x.JourneyId == id).ExecuteDeleteAsync(); // gom de xoa
+            }
             await _context.SaveChangesAsync();
             return NoContent(); //201
         }
