@@ -1,4 +1,4 @@
-﻿namespace Journal.MTM.JourneyUsers
+﻿namespace Journal.Databases.Campaigns.Tables.JourneyUsers
 {
     public class Table
     {

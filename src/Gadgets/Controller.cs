@@ -7,8 +7,8 @@ namespace Journal.Gadgets;
 public class Controller:ControllerBase
 {
     private readonly ILogger<Controller> _logger;
-    private readonly Databases.Campaigns.JournalDbContext _context;
-    public Controller(ILogger<Controller> logger, Databases.Campaigns.JournalDbContext context)
+    private readonly JournalDbContext _context;
+    public Controller(ILogger<Controller> logger, JournalDbContext context)
     {
         _logger = logger;
         _context = context;
@@ -52,7 +52,7 @@ public class Controller:ControllerBase
         {
             return BadRequest("Gadget cannot be null");
         }
-        var newGadget = new Table
+        var newGadget = new Databases.Campaigns.Tables.Gadget.Table
         {
             GadgetId = Guid.NewGuid(),
             Name = gadget.Name,

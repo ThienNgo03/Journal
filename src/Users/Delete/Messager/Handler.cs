@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Journal.Databases.Campaigns;
+using Microsoft.EntityFrameworkCore;
 
 namespace Journal.Users.Delete.Messager
 {

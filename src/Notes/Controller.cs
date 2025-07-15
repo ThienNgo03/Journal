@@ -12,9 +12,9 @@ namespace Journal.Notes
 
         private readonly ILogger<Controller> _logger;
 
-        private readonly Databases.Campaigns.JournalDbContext _context; //biến đại diện cho database
+        private readonly JournalDbContext _context; //biến đại diện cho database
 
-        public Controller(ILogger<Controller> logger, Databases.Campaigns.JournalDbContext context)
+        public Controller(ILogger<Controller> logger, JournalDbContext context)
         {
             _logger = logger;
             _context = context; // gán database vào biến(_context) đã tạo
@@ -71,7 +71,7 @@ namespace Journal.Notes
                 return NotFound();
             }
 
-            var note = new Table //tạo một hàng dữ liệu mới
+            var note = new Databases.Campaigns.Tables.Note.Table //tạo một hàng dữ liệu mới
             {
                 Id = Guid.NewGuid(),
                 UserId = payload.UserId,

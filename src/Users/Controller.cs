@@ -52,7 +52,7 @@ public class Controller : ControllerBase
 
     public async Task<IActionResult> Post([FromBody] Post.Payload payload)
     {
-        var user = new Table //tạo một hàng dữ liệu mới
+        var user = new Databases.Campaigns.Tables.User.Table //tạo một hàng dữ liệu mới
         {
             Id = Guid.NewGuid(),
             Name = payload.Name,
