@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Wolverine;
 
 namespace Journal.Users;
 
@@ -7,14 +8,17 @@ namespace Journal.Users;
 [Route("Users")]
 public class Controller : ControllerBase
 {
+    private readonly IMessageBus _messageBus;
+
     private readonly ILogger<Controller> _logger;
 
     private readonly JournalDbContext _context; //biến đại diện cho database
 
-    public Controller(ILogger<Controller> logger, JournalDbContext context)
+    public Controller(ILogger<Controller> logger, JournalDbContext context, IMessageBus messageBus)
     {
         _logger = logger;
         _context = context; // gán database vào biến(_context) đã tạo
+        _messageBus = messageBus;
     }
 
     [HttpGet]
@@ -87,11 +91,8 @@ public class Controller : ControllerBase
             return NotFound();
         }
         _context.Users.Remove(user); //xóa data tìm được khỏi table hiện tại
-        if (parameters.DeleteNotes)
-        {
-            await _context.Notes.Where(x => x.UserId == parameters.Id).ExecuteDeleteAsync();
-        }
         await _context.SaveChangesAsync();
+        await _messageBus.PublishAsync(new Delete.Messager.Message(parameters.Id, parameters.DeleteNotes)); // bắn qua handler
         return NoContent(); //201
     }
 }
