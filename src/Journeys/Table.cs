@@ -1,11 +1,11 @@
-﻿namespace Journal
+﻿namespace Journal.Journeys
 {
-    public class Journey
+    public class Table
     {
 
         public Guid Id { get; set; } // cột ID
 
-        public string Content { get; set; } = string.Empty; // cột nội dung nhật ký
+        public string Content { get; set; } // cột nội dung nhật ký
 
         public string? Location { get; set; }
 
