@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Journal.Databases.Campaigns;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 namespace Journal.Gadgets;
@@ -6,8 +7,8 @@ namespace Journal.Gadgets;
 public class Controller:ControllerBase
 {
     private readonly ILogger<Controller> _logger;
-    private readonly JournalDbContext _context;
-    public Controller(ILogger<Controller> logger, JournalDbContext context)
+    private readonly Databases.Campaigns.JournalDbContext _context;
+    public Controller(ILogger<Controller> logger, Databases.Campaigns.JournalDbContext context)
     {
         _logger = logger;
         _context = context;

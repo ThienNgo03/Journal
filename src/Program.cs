@@ -1,4 +1,4 @@
-﻿using Journal;
+﻿using Journal.Databases.Campaigns;
 using Microsoft.EntityFrameworkCore;
 using Wolverine;
 

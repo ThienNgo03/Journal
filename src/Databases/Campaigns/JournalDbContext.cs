@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 
-namespace Journal
+namespace Journal.Databases.Campaigns
 {
     public class JournalDbContext : DbContext // database
     {

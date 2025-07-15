@@ -1,4 +1,6 @@
-﻿namespace Journal.Gadgets.Get;
+﻿using Journal.Databases.Campaigns.Tables.Gadget;
+
+namespace Journal.Gadgets.Get;
 
 public class Parameters
 {
@@ -14,5 +16,5 @@ public class PageProperty
     public int PageIndex { get; set; }
     public int PageSize { get; set; }
     public int TotalRecords { get; set; }
-    public IEnumerable<Gadgets.Table> Gadgets { get; set; }= [];
+    public IEnumerable<Table> Gadgets { get; set; }= [];
 }

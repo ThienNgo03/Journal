@@ -1,4 +1,5 @@
-﻿using Journal.Journeys.Delete;
+﻿using Journal.Databases.Campaigns;
+using Journal.Journeys.Delete;
 using Journal.Journeys.Post;
 using Journal.Journeys.Update;
 using Microsoft.AspNetCore.Mvc;

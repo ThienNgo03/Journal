@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace Journal.Gadgets;
+namespace Journal.Databases.Campaigns.Tables.Gadget;
 
 public class Table
 {
