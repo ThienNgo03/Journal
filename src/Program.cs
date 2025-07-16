@@ -16,6 +16,16 @@ builder.Services.AddDbContext <JournalDbContext>(x => x.UseSqlServer("Server=loc
 builder.Services.AddWolverine(options =>
 {
     options.PublishMessage<Journal.Journeys.Delete.Messager.Message>().ToLocalQueue("journey-delete");
+    options.PublishMessage<Journal.Journeys.Post.Messager.Message>().ToLocalQueue("journey-post");
+    options.PublishMessage<Journal.Journeys.Update.Messager.Message>().ToLocalQueue("journey-update");
+
+    options.PublishMessage<Journal.Users.Delete.Messager.Message>().ToLocalQueue("user-delete");
+    options.PublishMessage<Journal.Users.Post.Messager.Message>().ToLocalQueue("user-post");
+    options.PublishMessage<Journal.Users.Update.Messager.Message>().ToLocalQueue("user-update");
+
+    options.PublishMessage<Journal.Notes.Delete.Messager.Message>().ToLocalQueue("note-delete");
+    options.PublishMessage<Journal.Notes.Post.Messager.Message>().ToLocalQueue("note-post");
+    options.PublishMessage<Journal.Notes.Update.Messager.Message>().ToLocalQueue("note-update");
 });
 var app = builder.Build();
 

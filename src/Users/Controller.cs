@@ -61,6 +61,7 @@ public class Controller : ControllerBase
         };
         _context.Users.Add(user);
         await _context.SaveChangesAsync();
+        await _messageBus.PublishAsync(new Post.Messager.Message(user.Id));
         return CreatedAtAction(nameof(Get), user.Id);
     }
 
@@ -78,6 +79,7 @@ public class Controller : ControllerBase
         user.Email = payload.Email;
         _context.Users.Update(user);
         await _context.SaveChangesAsync();
+        await _messageBus.PublishAsync(new Update.Messager.Message(payload.Id));
         return NoContent(); //201
     }
 

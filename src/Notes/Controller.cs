@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Reflection.Metadata;
+using Wolverine;
 
 namespace Journal.Notes
 {
@@ -9,15 +10,17 @@ namespace Journal.Notes
     [Route("Notes")]
     public class Controller : ControllerBase
     {
+        private readonly IMessageBus _messageBus;
 
         private readonly ILogger<Controller> _logger;
 
         private readonly JournalDbContext _context; //biến đại diện cho database
 
-        public Controller(ILogger<Controller> logger, JournalDbContext context)
+        public Controller(ILogger<Controller> logger, JournalDbContext context, IMessageBus messageBus)
         {
             _logger = logger;
             _context = context; // gán database vào biến(_context) đã tạo
+            _messageBus = messageBus;
         }
         [HttpGet]
 
@@ -82,6 +85,7 @@ namespace Journal.Notes
             };
             _context.Notes.Add(note); // add hàng dữ liệu mới vào table
             await _context.SaveChangesAsync(); // lưu lại table
+            await _messageBus.PublishAsync(new Post.Messager.Message(note.Id));
             return CreatedAtAction(nameof(Get), note.Id);
         }
 
@@ -95,6 +99,7 @@ namespace Journal.Notes
             }
             _context.Notes.Remove(note); //xóa data tìm được khỏi table hiện tại
             await _context.SaveChangesAsync();
+            await _messageBus.PublishAsync(new Delete.Messager.Message(parameters.Id));
             return NoContent(); //201
         }
 
@@ -129,6 +134,7 @@ namespace Journal.Notes
             note.UserId = payload.UserId;
             _context.Notes.Update(note);
             await _context.SaveChangesAsync();
+            await _messageBus.PublishAsync(new Update.Messager.Message(payload.Id));
             return NoContent(); //201
         }
     }

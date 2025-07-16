@@ -30,24 +30,24 @@ namespace Journal.Journeys
         [HttpGet]
         public async Task<IActionResult> Get([FromQuery] Get.Parameters parameters)// phải có dấu ? sau mỗi property, cho phép để trống chúng khi Get, nếu không sẽ lỗi
         {
-            var journeys = _context.Journeys.AsQueryable(); //lấy table ra, nhưng chưa đâm xuống Database
+            var query = _context.Journeys.AsQueryable(); //lấy table ra, nhưng chưa đâm xuống Database
             //Query ID
             if (parameters.id.HasValue)
-                journeys = journeys.Where(x => x.Id == parameters.id);
+                query = query.Where(x => x.Id == parameters.id);
             //Query Content
             if (!string.IsNullOrEmpty(parameters.content))
-                journeys = journeys.Where(x => x.Content.Contains(parameters.content));
+                query = query.Where(x => x.Content.Contains(parameters.content));
             //Query Location
             if (!string.IsNullOrEmpty(parameters.location))
-                journeys = journeys.Where(x => x.Location.Contains(parameters.location));
+                query = query.Where(x => x.Location.Contains(parameters.location));
             //Query Date
             if (parameters.date.HasValue)
-                journeys = journeys.Where(x => x.Date == parameters.date);
+                query = query.Where(x => x.Date == parameters.date);
             //chia trang
             if (parameters.pageSize.HasValue && parameters.pageIndex.HasValue && parameters.pageSize > 0 && parameters.pageIndex >= 0)
-                journeys = journeys.Skip(parameters.pageIndex.Value * parameters.pageSize.Value).Take(parameters.pageSize.Value);
+                query = query.Skip(parameters.pageIndex.Value * parameters.pageSize.Value).Take(parameters.pageSize.Value);
 
-            var result = await journeys.AsNoTracking().ToListAsync();
+            var result = await query.AsNoTracking().ToListAsync();
             return Ok(result);
         }
 
@@ -63,6 +63,7 @@ namespace Journal.Journeys
             };
             _context.Journeys.Add(journey); // add hàng dữ liệu mới vào table
             await _context.SaveChangesAsync(); // lưu lại table
+            await _messageBus.PublishAsync(new Post.Messager.Message(journey.Id));
             return CreatedAtAction(nameof(Get), journey.Id);
         }
 
@@ -93,6 +94,7 @@ namespace Journal.Journeys
             journey.Location = payload.Location;
             _context.Journeys.Update(journey);
             await _context.SaveChangesAsync();
+            await _messageBus.PublishAsync(new Update.Messager.Message(payload.Id));
             return NoContent(); //201
         }
     }
