@@ -15,39 +15,36 @@ namespace Journal.Journeys
     public class Controller : ControllerBase
     {
         private readonly IMessageBus _messageBus;
+        private readonly Get.Interface _getInterface;
         private readonly ILogger<Controller> _logger;
 
         private readonly JournalDbContext _context; //biến đại diện cho database
 
-        public Controller(ILogger<Controller> logger, JournalDbContext context, IMessageBus messageBus)
+        public Controller(ILogger<Controller> logger,
+                          JournalDbContext context, 
+                          IMessageBus messageBus,
+                          Get.Interface getInterface)
         {
             _logger = logger;
             _context = context; // gán database vào biến(_context) đã tạo
             _messageBus = messageBus;
+            _getInterface = getInterface;
         }
 
-
+        ///Abstraction(Get API): gồm 3 bước chính :
+        /// <summary>
+        /// 1: Lấy dữ liệu từ storage 
+        /// 2: xử lý dữ liệu
+        /// 3: Trả về dữ liệu cho người dùng
+        /// </summary>
+        /// <param name="parameters"></param>
+        /// <returns></returns>
         [HttpGet]
         public async Task<IActionResult> Get([FromQuery] Get.Parameters parameters)// phải có dấu ? sau mỗi property, cho phép để trống chúng khi Get, nếu không sẽ lỗi
         {
-            var query = _context.Journeys.AsQueryable(); //lấy table ra, nhưng chưa đâm xuống Database
-            //Query ID
-            if (parameters.id.HasValue)
-                query = query.Where(x => x.Id == parameters.id);
-            //Query Content
-            if (!string.IsNullOrEmpty(parameters.content))
-                query = query.Where(x => x.Content.Contains(parameters.content));
-            //Query Location
-            if (!string.IsNullOrEmpty(parameters.location))
-                query = query.Where(x => x.Location.Contains(parameters.location));
-            //Query Date
-            if (parameters.date.HasValue)
-                query = query.Where(x => x.Date == parameters.date);
-            //chia trang
-            if (parameters.pageSize.HasValue && parameters.pageIndex.HasValue && parameters.pageSize > 0 && parameters.pageIndex >= 0)
-                query = query.Skip(parameters.pageIndex.Value * parameters.pageSize.Value).Take(parameters.pageSize.Value);
-
-            var result = await query.AsNoTracking().ToListAsync();
+            var storage = await _getInterface.GetStorage(parameters); 
+            var processData = await _getInterface.ProcessStorage(storage);
+            var result = await _getInterface.CreateResult(processData);
             return Ok(result);
         }
 
