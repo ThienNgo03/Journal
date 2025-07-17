@@ -1,4 +1,5 @@
 ﻿using Journal.Databases.Campaigns;
+using Journal.Journeys;
 using Microsoft.EntityFrameworkCore;
 using Wolverine;
 
@@ -27,6 +28,7 @@ builder.Services.AddWolverine(options =>
     options.PublishMessage<Journal.Notes.Post.Messager.Message>().ToLocalQueue("note-post");
     options.PublishMessage<Journal.Notes.Update.Messager.Message>().ToLocalQueue("note-update");
 });
+builder.Services.AddJourneys(builder.Configuration);
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

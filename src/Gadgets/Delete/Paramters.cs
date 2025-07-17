@@ -2,5 +2,5 @@
 
 public class Paramters
 {
-    public Guid GadgetId { get; set; }
+    public Guid Id { get; set; }
 }

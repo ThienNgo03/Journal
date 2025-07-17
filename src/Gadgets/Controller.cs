@@ -1,8 +1,13 @@
 ﻿using Journal.Databases.Campaigns;
+using Journal.Gadgets.Post;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
 namespace Journal.Gadgets;
+
+[ApiController]
+[Route("Gadgets")]
 
 public class Controller:ControllerBase
 {
@@ -14,79 +19,60 @@ public class Controller:ControllerBase
         _context = context;
     }
     [HttpGet]
-    public async Task<IActionResult> Get([FromBody] Get.Parameters parameters)
+    public async Task<IActionResult> Get([FromQuery] Get.Parameters parameters)
     {
-        var gadgets =_context.Gadgets.AsQueryable();
-        if(parameters.GadgetId.HasValue)
-        {
-            gadgets = gadgets.Where(g => g.GadgetId == parameters.GadgetId.Value);
-        }
+        var query =_context.Gadgets.AsQueryable();
+        if(parameters.Id.HasValue)
+            query = query.Where(g => g.Id == parameters.Id.Value);
         if(!string.IsNullOrEmpty(parameters.Name))
-        {
-            gadgets = gadgets.Where(g => g.Name.Contains(parameters.Name, StringComparison.OrdinalIgnoreCase));
-        }
+            query = query.Where(g => g.Name.Contains(parameters.Name, StringComparison.OrdinalIgnoreCase));
         if(!string.IsNullOrEmpty(parameters.Brand))
-        {
-            gadgets = gadgets.Where(g => g.Brand.Contains(parameters.Brand, StringComparison.OrdinalIgnoreCase));
-        }
+            query = query.Where(g => g.Brand.Contains(parameters.Brand, StringComparison.OrdinalIgnoreCase));
         if(!string.IsNullOrEmpty(parameters.Description))
-        {
-            gadgets = gadgets.Where(g => g.Description.Contains(parameters.Description, StringComparison.OrdinalIgnoreCase));
-        }
-        
-        var gadgetList = await gadgets.ToListAsync();
-        if (parameters.PageIndex.HasValue && parameters.PageIndex > 0 &&
-            parameters.PageSize.HasValue && parameters.PageSize > 0)
-        {
-            gadgetList = gadgetList
-                .Skip((parameters.PageIndex.Value - 1) * parameters.PageSize.Value)
-                .Take(parameters.PageSize.Value)
-                .ToList();
-        }
-        return Ok(gadgetList);
+            query = query.Where(g => g.Description.Contains(parameters.Description, StringComparison.OrdinalIgnoreCase));
+        if (parameters.Date.HasValue)
+            query = query.Where(x => x.Date == parameters.Date);
+        if (parameters.PageSize.HasValue && parameters.PageIndex.HasValue && parameters.PageSize > 0 && parameters.PageIndex >= 0)
+            query = query.Skip(parameters.PageIndex.Value * parameters.PageSize.Value).Take(parameters.PageSize.Value);
+
+        var result = await query.AsNoTracking().ToListAsync();
+        return Ok(result);
     }
-    [HttpPost("gadgets")]
-    public async Task<IActionResult> Create([FromBody] Post.Payload gadget)
+    [HttpPost]
+    public async Task<IActionResult> Create([FromBody] Post.Payload payload)
     {
-        if (gadget == null)
+        var gadget = new Databases.Campaigns.Tables.Gadget.Table
         {
-            return BadRequest("Gadget cannot be null");
-        }
-        var newGadget = new Databases.Campaigns.Tables.Gadget.Table
-        {
-            GadgetId = Guid.NewGuid(),
-            Name = gadget.Name,
-            Description = gadget.Description,
-            Brand = gadget.Brand,
-            CreatedDate = DateTime.UtcNow,
+            Id = Guid.NewGuid(),
+            Name = payload.Name,
+            Description = payload.Description,
+            Brand = payload.Brand,
+            Date = payload.Date,
         };
-        await _context.Gadgets.AddAsync(newGadget);
+        _context.Gadgets.Add(gadget);
         await _context.SaveChangesAsync();
-        return CreatedAtAction(nameof(Get), newGadget.GadgetId);
+        return CreatedAtAction(nameof(Get), gadget.Id);
     }
-    [HttpPut("gadgets/{id}")]
-    public async Task<IActionResult> Update([FromBody] Update.Payload gadget)
+    [HttpPut]
+    public async Task<IActionResult> Update([FromBody] Update.Payload payload)
     {
-        var existingGadget = _context.Gadgets.Find(gadget.GadgetId);
-        if (existingGadget == null)
+        var gadget = await _context.Gadgets.FindAsync(payload.Id);
+        if (gadget == null)
         {
             return NotFound();
         }
-        if(!string.IsNullOrEmpty(gadget.Name))
-            existingGadget.Name = gadget.Name;
-        if(!string.IsNullOrEmpty(gadget.Description))
-            existingGadget.Description = gadget.Description;
-        if(!string.IsNullOrEmpty(gadget.Brand))
-            existingGadget.Brand = gadget.Brand;
-        existingGadget.UpdatedDate = DateTime.UtcNow;
-        _context.Update(existingGadget);
+        gadget.Name = payload.Name;
+        gadget.Description = payload.Description;
+        gadget.Brand = payload.Brand;
+        gadget.Date = payload.Date;
+        _context.Gadgets.Update(gadget);
         await _context.SaveChangesAsync();
         return NoContent();
     }
-    [HttpDelete("gadgets/{id}")]
+    [HttpDelete]
     public async Task<IActionResult> Delete(Delete.Paramters paramters)
     {
-        var gadget = await _context.Gadgets.FindAsync(paramters.GadgetId);
+        var gadget = await _context.Gadgets.FindAsync(paramters.Id);
         if (gadget == null)
         {
             return NotFound();

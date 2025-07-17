@@ -64,7 +64,8 @@ public class Implementation : Interface
             Id = x.Id,
             Content = x.Content,
             Location = x.Location,
-            Date = x.Date
+            Date = x.Date,
+            Weather = "Mua lon"
         }).ToList();
 
         processData.Data = extendedData;
