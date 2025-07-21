@@ -42,7 +42,7 @@ namespace Journal.Journeys
         [HttpGet]
         public async Task<IActionResult> Get([FromQuery] Get.Parameters parameters)// phải có dấu ? sau mỗi property, cho phép để trống chúng khi Get, nếu không sẽ lỗi
         {
-            var storage = await _getInterface.GetStorage(parameters); 
+            var storage = await _getInterface.GetStorage(parameters);
             var processData = await _getInterface.ProcessStorage(storage);
             var result = await _getInterface.CreateResult(processData);
             return Ok(result);

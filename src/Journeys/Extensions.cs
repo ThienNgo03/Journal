@@ -7,5 +7,7 @@ public static class Extensions
     {
         services.AddTransient<Get.Interface, Get.Implementations.Version1.Implementation>();
         return services;
+
+        
     }
 }
