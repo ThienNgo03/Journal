@@ -1,5 +1,7 @@
 ﻿namespace Journal.Workouts
 {
+    [ApiController]
+    [Route("Workouts")]
     public class Controller : ControllerBase
     {
         private readonly IMessageBus _messageBus;
@@ -68,7 +70,7 @@
 
             workout.ExerciseId = payload.ExerciseId;
             workout.UserId = payload.UserId;
-            workout.LastUpdated = payload.LastUpdated;
+            workout.LastUpdated = DateTime.UtcNow;
             _context.Workouts.Update(workout);
             await _context.SaveChangesAsync();
             await _messageBus.PublishAsync(new Update.Messager.Message(payload.Id));

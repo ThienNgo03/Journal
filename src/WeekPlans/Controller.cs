@@ -1,5 +1,7 @@
 ﻿namespace Journal.WeekPlans
 {
+    [ApiController]
+    [Route("WeekPlans")]
     public class Controller : ControllerBase
     {
         private readonly IMessageBus _messageBus;
@@ -84,7 +86,7 @@
             weekPlan.Rep = payload.Rep;
             weekPlan.HoldingTime = payload.HoldingTime;
             weekPlan.Set = payload.Set;
-            weekPlan.LastUpdated = payload.LastUpdated;
+            weekPlan.LastUpdated = DateTime.UtcNow;
             _context.WeekPlans.Update(weekPlan);
             await _context.SaveChangesAsync();
             await _messageBus.PublishAsync(new Update.Messager.Message(payload.Id));

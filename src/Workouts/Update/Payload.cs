@@ -8,6 +8,5 @@
 
         public Guid UserId { get; set; }
 
-        public DateTime LastUpdated { get; set; }
     }
 }

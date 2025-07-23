@@ -14,7 +14,5 @@
 
         public DateTime WorkoutDate { get; set; }
 
-        public DateTime LastUpdated { get; set; }
-
     }
 }
