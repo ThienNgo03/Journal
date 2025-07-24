@@ -23,6 +23,7 @@ namespace Journal.Databases.Campaigns
         public DbSet<Tables.WorkoutLog.Table> WorkoutLogs { get; set; }
         public DbSet<Tables.Workout.Table> Workouts { get; set; }
         public DbSet<Tables.WeekPlan.Table> WeekPlans { get; set; }
-
+        public DbSet<Tables.MeetUp.Table> MeetUps { get; set; }
     }
 }
+

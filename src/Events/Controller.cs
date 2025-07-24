@@ -46,3 +46,12 @@
 //Event(gameId, participantsId, time?)
 // Game-Event mqh 1-nhiều
 // Event-Participants mqh nhiều-nhiều
+
+//-----------MeetUp---------------
+// participantIds,  title,       datetime,       location, coverImage 
+// 'Id1, Id2, Id3', 'Daily', '2025-10-26-17:00', 'S10.02',   'url'
+//
+//
+//
+//
+//

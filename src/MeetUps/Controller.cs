@@ -1,38 +1,41 @@
-﻿namespace Journal.WorkoutLogs
+﻿using Microsoft.Extensions.Hosting;
+using Wolverine.Persistence;
+
+namespace Journal.MeetUps
 {
     [ApiController]
-    [Route("WorkoutLogs")]
-    public class Controller: ControllerBase
+    [Route("MeetUps")]
+    public class Controller : ControllerBase
     {
         private readonly IMessageBus _messageBus;
         private readonly ILogger<Controller> _logger;
         private readonly JournalDbContext _context;
-        
+
         public Controller(IMessageBus messageBus, ILogger<Controller> logger, JournalDbContext context)
         {
             _messageBus = messageBus;
             _logger = logger;
             _context = context;
         }
-
         [HttpGet]
-
         public async Task<IActionResult> Get([FromQuery] Get.Parameters parameters)
         {
-            var query = _context.WorkoutLogs.AsQueryable();
+            var query = _context.MeetUps.AsQueryable();
 
             if (parameters.Id.HasValue)
                 query = query.Where(x => x.Id == parameters.Id);
-            if (parameters.WorkoutId.HasValue)
-                query = query.Where(x => x.WorkoutId == parameters.WorkoutId);
-            if (parameters.Rep.HasValue)
-                query = query.Where(x => x.Rep == parameters.Rep);
-            if (parameters.HoldingTime.HasValue)
-                query = query.Where(x => x.HoldingTime == parameters.HoldingTime);
-            if (parameters.Set.HasValue)
-                query = query.Where(x => x.Set == parameters.Set);
-            if (parameters.WorkoutDate.HasValue)
-                query = query.Where(x => x.WorkoutDate == parameters.WorkoutDate);
+            if (!String.IsNullOrEmpty(parameters.ParticipantIds))
+                query = query.Where(x => x.ParticipantIds.Contains(parameters.ParticipantIds));
+            if (!String.IsNullOrEmpty(parameters.Title))
+                query = query.Where(x => x.Title.Contains(parameters.Title));
+            if (parameters.DateTime.HasValue)
+                query = query.Where(x => x.DateTime == parameters.DateTime);
+            if (!String.IsNullOrEmpty(parameters.Location))
+                query = query.Where(x => x.Location.Contains(parameters.Location));
+
+            if (!String.IsNullOrEmpty(parameters.CoverImage))
+                query = query.Where(x => x.CoverImage.Contains(parameters.CoverImage));
+
             if (parameters.CreatedDate.HasValue)
                 query = query.Where(x => x.CreatedDate == parameters.CreatedDate);
             if (parameters.LastUpdated.HasValue)
@@ -44,46 +47,42 @@
             var result = await query.AsNoTracking().ToListAsync();
             return Ok(result);
         }
-
         [HttpPost]
-
         public async Task<IActionResult> Post([FromBody] Post.Payload payload)
         {
-            var workoutLog = new Databases.Campaigns.Tables.WorkoutLog.Table
+            var meetUp = new Databases.Campaigns.Tables.MeetUp.Table
             {
                 Id = Guid.NewGuid(),
-                WorkoutId = payload.WorkoutId,
-                Rep = payload.Rep,
-                HoldingTime = payload.HoldingTime,
-                Set = payload.Set,
-                WorkoutDate = payload.WorkoutDate,
+                ParticipantIds = payload.ParticipantIds,
+                Title = payload.Title,
+                DateTime = payload.DateTime,
+                Location = payload.Location,
+                CoverImage = payload.CoverImage,
                 CreatedDate = DateTime.UtcNow,
                 LastUpdated = DateTime.UtcNow
             };
 
-            _context.WorkoutLogs.Add(workoutLog);
+            _context.MeetUps.Add(meetUp);
             await _context.SaveChangesAsync();
-            await _messageBus.PublishAsync(new Post.Messager.Message(workoutLog.Id));
-            return CreatedAtAction(nameof(Get), workoutLog.Id);
+            await _messageBus.PublishAsync(new Post.Messager.Message(meetUp.Id));
+            return CreatedAtAction(nameof(Get), meetUp.Id);
         }
-
-        [HttpPut] 
-
+        [HttpPut]
         public async Task<IActionResult> Put([FromBody] Update.Payload payload)
         {
-            var workoutLog = await _context.WorkoutLogs.FindAsync(payload.Id);
-            if (workoutLog == null)
+            var meetUp = await _context.MeetUps.FindAsync(payload.Id);
+            if (meetUp == null)
             {
                 return NotFound();
             }
 
-            workoutLog.WorkoutId = payload.WorkoutId;
-            workoutLog.Rep = payload.Rep;
-            workoutLog.HoldingTime = payload.HoldingTime;
-            workoutLog.Set = payload.Set;
-            workoutLog.WorkoutDate = payload.WorkoutDate;
-            workoutLog.LastUpdated = payload.LastUpdated;
-            _context.WorkoutLogs.Update(workoutLog);
+            meetUp.ParticipantIds = payload.ParticipantIds;
+            meetUp.Title = payload.Title;
+            meetUp.DateTime = payload.DateTime;
+            meetUp.Location = payload.Location;
+            meetUp.CoverImage = payload.CoverImage;
+            meetUp.LastUpdated = DateTime.UtcNow;
+            _context.MeetUps.Update(meetUp);
             await _context.SaveChangesAsync();
             await _messageBus.PublishAsync(new Update.Messager.Message(payload.Id));
             return NoContent();
@@ -93,13 +92,13 @@
 
         public async Task<IActionResult> Delete([FromQuery] Delete.Parameters parameters)
         {
-            var workoutLog = await _context.WorkoutLogs.FindAsync(parameters.Id);
-            if (workoutLog == null)
+            var meetUp = await _context.MeetUps.FindAsync(parameters.Id);
+            if (meetUp == null)
             {
                 return NotFound();
             }
 
-            _context.WorkoutLogs.Remove(workoutLog);
+            _context.MeetUps.Remove(meetUp);
             await _context.SaveChangesAsync();
             await _messageBus.PublishAsync(new Delete.Messager.Message(parameters.Id));
             return NoContent();
