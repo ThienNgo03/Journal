@@ -22,22 +22,16 @@
 
 
 
-//Exercise(Id, name, description, CreatedDate, LastUpdated)
-//WorkoutLog(Id, WorkoutId, Rep?, Time?, Set, ExDate, CreatedDate, LastUpdated) //thực tế
-//Workout(Id, ExId, UserId, CreatedDate, LastUpdated) //Dự định
-//WeekPLan(Id, WorkoutId, DateOfWeek, Time, Rep?, HoldingTime?, Set) //Tập vào thứ mấy và mấy giờ
-
-//=======
-
-//Game(type, maximum player)
-
-//participants(info)
-
-//Event(game, maximum player, time?, participants)
-// Game-Event mqh 1-nhiều
-// Event-Participants mqh nhiều-nhiều
-
 //-------
+
+//Competitions(Id, ExerciseId, Title, Location, DateTime, Type, MaxPlayers) 
+//-Id1-ExerciseId1-ChayDua-S10.02-17h-Ranked
+//-Id2-ExerciseId2-VatTay-S10.02-15h-Solo
+
+
+//SoloPool(Id, CompetionId, WinnerId, LoserId)
+//-Id1-CompetionId2-Viet-Khoa
+
 
 //Game(name, maximum player)
 
@@ -46,12 +40,3 @@
 //Event(gameId, participantsId, time?)
 // Game-Event mqh 1-nhiều
 // Event-Participants mqh nhiều-nhiều
-
-//-----------MeetUp---------------
-// participantIds,  title,       datetime,       location, coverImage 
-// 'Id1, Id2, Id3', 'Daily', '2025-10-26-17:00', 'S10.02',   'url'
-//
-//
-//
-//
-//

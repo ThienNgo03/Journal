@@ -82,7 +82,7 @@
             workoutLog.HoldingTime = payload.HoldingTime;
             workoutLog.Set = payload.Set;
             workoutLog.WorkoutDate = payload.WorkoutDate;
-            workoutLog.LastUpdated = payload.LastUpdated;
+            workoutLog.LastUpdated = DateTime.UtcNow;
             _context.WorkoutLogs.Update(workoutLog);
             await _context.SaveChangesAsync();
             await _messageBus.PublishAsync(new Update.Messager.Message(payload.Id));

@@ -16,6 +16,5 @@
 
         public int Set { get; set; }
 
-        public DateTime LastUpdated { get; set; }
     }
 }
