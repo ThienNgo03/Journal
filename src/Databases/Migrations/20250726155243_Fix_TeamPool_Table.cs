@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace Journal.Migrations
 {
     /// <inheritdoc />
-    public partial class Re_migration_with_work : Migration
+    public partial class Fix_TeamPool_Table : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -136,7 +136,7 @@ namespace Journal.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    WinnerId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Position = table.Column<int>(type: "int", nullable: false),
                     CompetitionId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },

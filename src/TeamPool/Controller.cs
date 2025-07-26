@@ -8,9 +8,11 @@ namespace Journal.TeamPool;
 public class Controller : ControllerBase
 {
     private readonly JournalDbContext _dbContext;
-    public Controller(JournalDbContext dbContext)
+    private readonly IMessageBus _messageBus;
+    public Controller(JournalDbContext dbContext, IMessageBus messageBus)
     {
         _dbContext = dbContext;
+        _messageBus = messageBus;
     }
     [HttpGet]
     public async Task<IActionResult> Get([FromQuery] Get.Parameters parameters)
@@ -21,9 +23,9 @@ public class Controller : ControllerBase
         {
             query = query.Where(x => x.Id == parameters.Id.Value);
         }
-        if (parameters.WinnerId.HasValue)
+        if (parameters.Position.HasValue)
         {
-            query = query.Where(x => x.WinnerId == parameters.WinnerId.Value);
+            query = query.Where(x => x.Position == parameters.Position.Value);
         }
         if (parameters.CompetitionId.HasValue)
         {
@@ -44,10 +46,6 @@ public class Controller : ControllerBase
     [HttpPost]
     public async Task<IActionResult> Post([FromBody] Post.Payload payload)
     {
-        if (!ModelState.IsValid)
-        {
-            return BadRequest(ModelState);
-        }
         var existingCompetition = await _dbContext.Competitions.FindAsync(payload.CompetitionId);
         if (existingCompetition == null)
         {
@@ -56,21 +54,18 @@ public class Controller : ControllerBase
         var teamPool = new Journal.Databases.Campaigns.Tables.TeamPool.Table
         {
             Id = Guid.NewGuid(),
-            WinnerId = payload.WinnerId,
+            Position = payload.Position,
             CompetitionId = payload.CompetitionId,
             CreatedDate = DateTime.UtcNow
         };
         _dbContext.TeamPools.Add(teamPool);
         await _dbContext.SaveChangesAsync();
+        await _messageBus.PublishAsync(new Post.Messager.Message(teamPool.Id));
         return CreatedAtAction(nameof(Get), new { id = teamPool.Id });
     }
     [HttpPut]
     public async Task<IActionResult> Put([FromBody] Put.Payload payload)
     {
-        if (!ModelState.IsValid)
-        {
-            return BadRequest(ModelState);
-        }
         var teamPool = await _dbContext.TeamPools.FindAsync(payload.Id);
         if (teamPool == null)
         {
@@ -81,13 +76,14 @@ public class Controller : ControllerBase
         {
             return NotFound($"Competition with ID {payload.CompetitionId} not found.");
         }
-        teamPool.WinnerId = payload.WinnerId;
+        teamPool.Position = payload.Position;
         teamPool.CompetitionId = payload.CompetitionId;
         _dbContext.TeamPools.Update(teamPool);
         await _dbContext.SaveChangesAsync();
+        await _messageBus.PublishAsync(new Put.Messager.Message(teamPool.Id));
         return NoContent();
     }
-    [HttpDelete("{id}")]
+    [HttpDelete]
     public async Task<IActionResult> Delete([FromQuery] Delete.Parameters parameters)
     {
         var teamPool = await _dbContext.TeamPools.FindAsync(parameters.Id);
@@ -97,6 +93,7 @@ public class Controller : ControllerBase
         }
         _dbContext.TeamPools.Remove(teamPool);
         await _dbContext.SaveChangesAsync();
+        await _messageBus.PublishAsync(new Delete.Messager.Message(teamPool.Id));
         return NoContent();
     }
 }

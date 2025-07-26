@@ -35,7 +35,17 @@ public static class Extensions
             options.PublishMessage<Journal.WeekPlans.Update.Messager.Message>().ToLocalQueue("weekplan-update");
 
             options.PublishMessage<Journal.Competition.Delete.Messager.Message>().ToLocalQueue("competition-delete");
-            options.PublishMessage<Journal.Competition.Get.Messager.Message>().ToLocalQueue("competition-get");
+            options.PublishMessage<Journal.Competition.Post.Messager.Message>().ToLocalQueue("competition-post");
+            options.PublishMessage<Journal.Competition.Put.Messager.Message>().ToLocalQueue("competition-update");
+
+            options.PublishMessage<Journal.TeamPool.Delete.Messager.Message>().ToLocalQueue("campaign-delete");
+            options.PublishMessage<Journal.TeamPool.Post.Messager.Message>().ToLocalQueue("campaign-post");
+            options.PublishMessage<Journal.TeamPool.Put.Messager.Message>().ToLocalQueue("campaign-update");
+
+            options.PublishMessage<Journal.SoloPool.Delete.Messager.Message>().ToLocalQueue("campaign-member-delete");
+            options.PublishMessage<Journal.SoloPool.Post.Messager.Message>().ToLocalQueue("campaign-member-post");
+            options.PublishMessage<Journal.SoloPool.Put.Messager.Message>().ToLocalQueue("campaign-member-update");
+
         });
         return services;
 

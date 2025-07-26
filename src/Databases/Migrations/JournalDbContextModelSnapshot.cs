@@ -231,8 +231,8 @@ namespace Journal.Migrations
                     b.Property<DateTime>("CreatedDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<Guid>("WinnerId")
-                        .HasColumnType("uniqueidentifier");
+                    b.Property<int>("Position")
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
 

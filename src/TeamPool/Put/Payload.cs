@@ -6,8 +6,7 @@ public class Payload
 {
     [Required]
     public Guid Id { get; set; }
-    [Required]
-    public Guid WinnerId { get; set; }
+    public int Position { get; set; }
     [Required]
     public Guid CompetitionId { get; set; }
 }

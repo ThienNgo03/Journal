@@ -3,7 +3,7 @@
 public class Parameters
 {
     public Guid? Id { get; set; }
-    public Guid? WinnerId { get; set; }
+    public int? Position { get; set; }
     public Guid? CompetitionId { get; set; }
     public DateTime? CreatedDate { get; set; }
     public int? PageIndex { get; set; }

@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Journal.Migrations
 {
     [DbContext(typeof(JournalDbContext))]
-    [Migration("20250726034858_Re_migration_with_work")]
-    partial class Re_migration_with_work
+    [Migration("20250726155243_Fix_TeamPool_Table")]
+    partial class Fix_TeamPool_Table
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -234,8 +234,8 @@ namespace Journal.Migrations
                     b.Property<DateTime>("CreatedDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<Guid>("WinnerId")
-                        .HasColumnType("uniqueidentifier");
+                    b.Property<int>("Position")
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
 

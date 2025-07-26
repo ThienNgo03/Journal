@@ -1,4 +1,4 @@
-﻿namespace Journal.Competition.Get.Messager;
+﻿namespace Journal.SoloPool.Post.Messager;
 
 public class Handler
 {
@@ -10,6 +10,5 @@ public class Handler
     public async Task Handle(Message message)
     {
         
-        await _context.SaveChangesAsync();
     }
 }

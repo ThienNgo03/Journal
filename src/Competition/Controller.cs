@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Journal.Competition
 {
-    [Route("api/Competition")]
+    [Route("api/Competitions")]
     [ApiController]
     public class Controller : ControllerBase
     {
@@ -72,11 +72,6 @@ namespace Journal.Competition
         [HttpPost]
         public async Task<IActionResult> Create([FromBody] Payload competition)
         {
-            if (!ModelState.IsValid)
-            {
-                _logger.LogWarning("Invalid model state for competition creation: {ModelState}", ModelState);
-                return BadRequest(ModelState);
-            }
             Databases.Campaigns.Tables.Competition.Table newCompetition = new()
             {
                 Id = Guid.NewGuid(),
@@ -90,6 +85,7 @@ namespace Journal.Competition
             };
             _dbContext.Competitions.Add(newCompetition);
             await _dbContext.SaveChangesAsync();
+            await _messageBus.PublishAsync(new Post.Messager.Message(newCompetition.Id));
             return CreatedAtAction(nameof(Get), new { id = newCompetition.Id });
         }
         [HttpDelete]
@@ -110,11 +106,6 @@ namespace Journal.Competition
         [HttpPut]
         public async Task<IActionResult> Update([FromBody]Put.Payload competition)
         {
-            if (!ModelState.IsValid)
-            {
-                _logger.LogWarning("Invalid model state for competition update: {ModelState}", ModelState);
-                return BadRequest(ModelState);
-            }
             var existingCompetition = await _dbContext.Competitions.FindAsync(competition.Id);
             if (existingCompetition == null)
             {
@@ -128,6 +119,7 @@ namespace Journal.Competition
             existingCompetition.ExerciseId = competition.ExerciseId;
             existingCompetition.Type = competition.Type.ToString();
             await _dbContext.SaveChangesAsync();
+            await _messageBus.PublishAsync(new Put.Messager.Message(existingCompetition.Id));
             return NoContent();
         }
     }
