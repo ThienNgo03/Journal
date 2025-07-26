@@ -23,6 +23,9 @@ namespace Journal.Databases.Campaigns
         public DbSet<Tables.WorkoutLog.Table> WorkoutLogs { get; set; }
         public DbSet<Tables.Workout.Table> Workouts { get; set; }
         public DbSet<Tables.WeekPlan.Table> WeekPlans { get; set; }
+        public DbSet<Tables.Competition.Table> Competitions { get; set; }
+        public DbSet<Tables.SoloPool.Table> SoloPools { get; set; }
+        public DbSet<Tables.TeamPool.Table> TeamPools { get; set; }
 
     }
 }

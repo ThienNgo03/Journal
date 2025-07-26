@@ -33,6 +33,9 @@ public static class Extensions
             options.PublishMessage<Journal.WeekPlans.Delete.Messager.Message>().ToLocalQueue("weekplan-delete");
             options.PublishMessage<Journal.WeekPlans.Post.Messager.Message>().ToLocalQueue("weekplan-post");
             options.PublishMessage<Journal.WeekPlans.Update.Messager.Message>().ToLocalQueue("weekplan-update");
+
+            options.PublishMessage<Journal.Competition.Delete.Messager.Message>().ToLocalQueue("competition-delete");
+            options.PublishMessage<Journal.Competition.Get.Messager.Message>().ToLocalQueue("competition-get");
         });
         return services;
 
