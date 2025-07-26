@@ -35,8 +35,8 @@
 
 //Game(name, maximum player)
 
-//participants(info) 
-
-//Event(gameId, participantsId, time?)
-// Game-Event mqh 1-nhiều
-// Event-Participants mqh nhiều-nhiều
+//WinnerPool(Id, CompetionId, UserId, Position)
+//-Id1-CompetionId1-Thien-1
+//-Id2-CompetionId1-Khoa-2
+//-Id3-CompetionId1-Toan-3
+//-Id4-CompetionId1-Viet-4
