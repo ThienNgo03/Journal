@@ -27,6 +27,10 @@ public class Controller : ControllerBase
         {
             query = query.Where(x => x.Position == parameters.Position.Value);
         }
+        if (parameters.ParticipantId.HasValue)
+        {
+            query = query.Where(x => x.ParticipantId == parameters.ParticipantId.Value);
+        }
         if (parameters.CompetitionId.HasValue)
         {
             query = query.Where(x => x.CompetitionId == parameters.CompetitionId.Value);
@@ -55,6 +59,7 @@ public class Controller : ControllerBase
         {
             Id = Guid.NewGuid(),
             Position = payload.Position,
+            ParticipantId = payload.ParticipantId,
             CompetitionId = payload.CompetitionId,
             CreatedDate = DateTime.UtcNow
         };
@@ -76,6 +81,8 @@ public class Controller : ControllerBase
         {
             return NotFound($"Competition with ID {payload.CompetitionId} not found.");
         }
+
+        teamPool.ParticipantId = payload.ParticipantId;
         teamPool.Position = payload.Position;
         teamPool.CompetitionId = payload.CompetitionId;
         _dbContext.TeamPools.Update(teamPool);
