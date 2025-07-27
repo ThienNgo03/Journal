@@ -22,6 +22,46 @@ namespace Journal.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
+            modelBuilder.Entity("Journal.Databases.Campaigns.Tables.Competition.Table", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("DateTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<Guid>("ExerciseId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Location")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ParticipantIds")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Type")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Competitions");
+                });
+
             modelBuilder.Entity("Journal.Databases.Campaigns.Tables.Excercise.Table", b =>
                 {
                     b.Property<Guid>("Id")
@@ -192,6 +232,52 @@ namespace Journal.Migrations
                     b.ToTable("Notes");
                 });
 
+            modelBuilder.Entity("Journal.Databases.Campaigns.Tables.SoloPool.Table", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("CompetitionId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<Guid>("LoserId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("WinnerId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("SoloPools");
+                });
+
+            modelBuilder.Entity("Journal.Databases.Campaigns.Tables.TeamPool.Table", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("CompetitionId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<Guid>("ParticipantId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<int>("Position")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("TeamPools");
+                });
+
             modelBuilder.Entity("Journal.Databases.Campaigns.Tables.User.Table", b =>
                 {
                     b.Property<Guid>("Id")
@@ -224,11 +310,20 @@ namespace Journal.Migrations
                     b.Property<DateTime>("CreatedDate")
                         .HasColumnType("datetime2");
 
+<<<<<<< HEAD:src/Databases/Campaigns/Migrations/JournalDbContextModelSnapshot.cs
                     b.Property<DateTime>("DateOfWeek")
                         .HasColumnType("datetime2");
 
                     b.Property<int>("HoldingTime")
                         .HasColumnType("int");
+=======
+                    b.Property<string>("DateOfWeek")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<TimeSpan>("HoldingTime")
+                        .HasColumnType("time");
+>>>>>>> 67d42dc43d74edf31be2320c818ea49f8d0bc162:src/Migrations/JournalDbContextModelSnapshot.cs
 
                     b.Property<DateTime>("LastUpdated")
                         .HasColumnType("datetime2");
