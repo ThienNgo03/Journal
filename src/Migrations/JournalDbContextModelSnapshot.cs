@@ -4,7 +4,6 @@ using Journal.Databases.Campaigns;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
-using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -12,11 +11,9 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Journal.Migrations
 {
     [DbContext(typeof(JournalDbContext))]
-    [Migration("20250726155243_Fix_TeamPool_Table")]
-    partial class Fix_TeamPool_Table
+    partial class JournalDbContextModelSnapshot : ModelSnapshot
     {
-        /// <inheritdoc />
-        protected override void BuildTargetModel(ModelBuilder modelBuilder)
+        protected override void BuildModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -234,6 +231,9 @@ namespace Journal.Migrations
                     b.Property<DateTime>("CreatedDate")
                         .HasColumnType("datetime2");
 
+                    b.Property<Guid>("ParticipantId")
+                        .HasColumnType("uniqueidentifier");
+
                     b.Property<int>("Position")
                         .HasColumnType("int");
 
@@ -274,11 +274,12 @@ namespace Journal.Migrations
                     b.Property<DateTime>("CreatedDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<DateTime>("DateOfWeek")
-                        .HasColumnType("datetime2");
+                    b.Property<string>("DateOfWeek")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("HoldingTime")
-                        .HasColumnType("int");
+                    b.Property<TimeSpan>("HoldingTime")
+                        .HasColumnType("time");
 
                     b.Property<DateTime>("LastUpdated")
                         .HasColumnType("datetime2");

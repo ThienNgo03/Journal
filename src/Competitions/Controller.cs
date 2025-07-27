@@ -1,6 +1,7 @@
 ﻿using Journal.Competitions.Post;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.SignalR;
 
 namespace Journal.Competitions
 {
@@ -11,13 +12,15 @@ namespace Journal.Competitions
         private readonly Journal.Databases.Campaigns.JournalDbContext _dbContext;
         private readonly IMessageBus _messageBus;
         private readonly ILogger<Controller> _logger;
+        private readonly IHubContext<Hub> _hubContext;
         public Controller(Journal.Databases.Campaigns.JournalDbContext dbContext, 
             ILogger<Controller> logger, 
-            IMessageBus messageBus)
+            IMessageBus messageBus, IHubContext<Hub> hubContext)
         {
             _dbContext = dbContext;
             _logger = logger;
             _messageBus = messageBus;
+            _hubContext = hubContext;
         }
         [HttpGet]
         public async Task<IActionResult> Get([FromQuery] Get.Parameters parameters)
@@ -91,6 +94,7 @@ namespace Journal.Competitions
             _dbContext.Competitions.Add(newCompetition);
             await _dbContext.SaveChangesAsync();
             await _messageBus.PublishAsync(new Post.Messager.Message(newCompetition.Id));
+            await _hubContext.Clients.All.SendAsync("competition-created", newCompetition.Id);
             return CreatedAtAction(nameof(Get), new { id = newCompetition.Id });
         }
         [HttpDelete]
