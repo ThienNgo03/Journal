@@ -1,12 +1,12 @@
-﻿namespace Journal.Databases.Campaigns.Tables.Excercise
+﻿namespace Journal.Databases.Journal.Tables.Workout
 {
     public class Table
     {
         public Guid Id { get; set; }
 
-        public string Name { get; set; }
+        public Guid ExerciseId { get; set; }
 
-        public string Description { get; set; }
+        public Guid UserId { get; set; }
 
         public DateTime CreatedDate { get; set; }
 

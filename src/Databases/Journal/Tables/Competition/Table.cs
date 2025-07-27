@@ -1,4 +1,4 @@
-﻿namespace Journal.Databases.Campaigns.Tables.Competition;
+﻿namespace Journal.Databases.Journal.Tables.Competition;
 
 public class Table
 {

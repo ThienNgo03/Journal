@@ -7,10 +7,10 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="Databases\Campaigns\Tables\Event\**" />
-    <Content Remove="Databases\Campaigns\Tables\Event\**" />
-    <EmbeddedResource Remove="Databases\Campaigns\Tables\Event\**" />
-    <None Remove="Databases\Campaigns\Tables\Event\**" />
+    <Compile Remove="Databases\Journal\Tables\Event\**" />
+    <Content Remove="Databases\Journal\Tables\Event\**" />
+    <EmbeddedResource Remove="Databases\Journal\Tables\Event\**" />
+    <None Remove="Databases\Journal\Tables\Event\**" />
   </ItemGroup>
 
   <ItemGroup>

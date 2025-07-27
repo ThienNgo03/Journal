@@ -43,7 +43,7 @@
 
         public async Task<IActionResult> Post([FromBody] Post.Payload payload)
         {
-            var workout = new Databases.Campaigns.Tables.Workout.Table
+            var workout = new Databases.Journal.Tables.Workout.Table
             {
                 Id = Guid.NewGuid(),
                 ExerciseId = payload.ExerciseId,
