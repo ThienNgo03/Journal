@@ -23,5 +23,5 @@ public class Payload
     public DateTime DateTime { get; set; }
     
     
-    public required Type Type { get; set; }
+    public string Type { get; set; }= string.Empty;
 }

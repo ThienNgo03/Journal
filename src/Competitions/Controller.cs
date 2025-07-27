@@ -72,8 +72,8 @@ namespace Journal.Competitions
         [HttpPost]
         public async Task<IActionResult> Create([FromBody] Payload competition)
         {
-            if(competition.Type.ToLower().Trim()!= Post.Type.Solo.ToString().ToLower().Trim() && 
-                competition.Type.ToLower().Trim() != Post.Type.Team.ToString().ToLower().Trim())
+            if(competition.Type!= Post.Type.Solo.ToString() && 
+                competition.Type != Post.Type.Team.ToString())
             {
                 return BadRequest($"Invalid competition type: {competition.Type}");
             }
@@ -117,12 +117,17 @@ namespace Journal.Competitions
                 _logger.LogWarning("Attempted to update a non-existing competition with ID: {Id}", competition.Id);
                 return NotFound();
             }
+            if (competition.Type != Post.Type.Solo.ToString() &&
+                competition.Type != Post.Type.Team.ToString())
+            {
+                return BadRequest($"Invalid competition type: {competition.Type}");
+            }
             existingCompetition.Title = competition.Title;
             existingCompetition.Description = competition.Description;
             existingCompetition.Location = competition.Location;
             existingCompetition.DateTime = competition.DateTime;
             existingCompetition.ExerciseId = competition.ExerciseId;
-            existingCompetition.Type = competition.Type.ToString();
+            existingCompetition.Type = competition.Type;
             _dbContext.Competitions.Update(existingCompetition);
             await _dbContext.SaveChangesAsync();
             await _messageBus.PublishAsync(new Put.Messager.Message(existingCompetition.Id));
