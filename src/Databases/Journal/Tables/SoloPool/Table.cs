@@ -1,10 +1,10 @@
-﻿namespace Journal.Databases.Campaigns.Tables.TeamPool;
+﻿namespace Journal.Databases.Journal.Tables.SoloPool;
 
 public class Table
 {
     public Guid Id { get; set; }
-    public Guid ParticipantId { get; set; }
-    public int Position { get; set; }
+    public Guid WinnerId { get; set; }
+    public Guid LoserId { get; set; }
     public Guid CompetitionId { get; set; }
     public DateTime CreatedDate { get; set; }
 }

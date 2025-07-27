@@ -1,10 +1,4 @@
-﻿using Journal.Databases.Campaigns;
-using Journal.Gadgets.Post;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
-
-namespace Journal.Gadgets;
+﻿namespace Journal.Gadgets;
 
 [ApiController]
 [Route("Gadgets")]
@@ -41,7 +35,7 @@ public class Controller:ControllerBase
     [HttpPost]
     public async Task<IActionResult> Create([FromBody] Post.Payload payload)
     {
-        var gadget = new Databases.Campaigns.Tables.Gadget.Table
+        var gadget = new Databases.Journal.Tables.Gadget.Table
         {
             Id = Guid.NewGuid(),
             Name = payload.Name,

@@ -1,6 +1,4 @@
 ﻿using Journal.Competitions.Post;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SignalR;
 
 namespace Journal.Competitions
@@ -9,11 +7,11 @@ namespace Journal.Competitions
     [ApiController]
     public class Controller : ControllerBase
     {
-        private readonly Journal.Databases.Campaigns.JournalDbContext _dbContext;
+        private readonly JournalDbContext _dbContext;
         private readonly IMessageBus _messageBus;
         private readonly ILogger<Controller> _logger;
         private readonly IHubContext<Hub> _hubContext;
-        public Controller(Journal.Databases.Campaigns.JournalDbContext dbContext, 
+        public Controller(JournalDbContext dbContext, 
             ILogger<Controller> logger, 
             IMessageBus messageBus, IHubContext<Hub> hubContext)
         {
@@ -80,7 +78,7 @@ namespace Journal.Competitions
             {
                 return BadRequest($"Invalid competition type: {competition.Type}");
             }
-            Databases.Campaigns.Tables.Competition.Table newCompetition = new()
+            Databases.Journal.Tables.Competition.Table newCompetition = new()
             {
                 Id = Guid.NewGuid(),
                 Title = competition.Title,

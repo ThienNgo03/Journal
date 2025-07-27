@@ -1,4 +1,4 @@
-﻿namespace Journal.Databases.Campaigns.Tables.WorkoutLog
+﻿namespace Journal.Databases.Journal.Tables.WorkoutLog
 {
     public class Table
     {

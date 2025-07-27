@@ -55,7 +55,7 @@ public class Controller : ControllerBase
         {
             return NotFound($"Competition with ID {payload.CompetitionId} not found.");
         }
-        var teamPool = new Journal.Databases.Campaigns.Tables.TeamPool.Table
+        var teamPool = new Journal.Databases.Journal.Tables.TeamPool.Table
         {
             Id = Guid.NewGuid(),
             Position = payload.Position,

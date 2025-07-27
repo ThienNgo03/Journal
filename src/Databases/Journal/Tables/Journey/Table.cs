@@ -1,6 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
-
-namespace Journal.Databases.Campaigns.Tables.Journey
+﻿namespace Journal.Databases.Journal.Tables.Journey
 {
     public class Table
     {

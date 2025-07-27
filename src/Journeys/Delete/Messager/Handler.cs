@@ -1,7 +1,4 @@
-﻿using Journal.Databases.Campaigns;
-using Microsoft.EntityFrameworkCore;
-
-namespace Journal.Journeys.Delete.Messager
+﻿namespace Journal.Journeys.Delete.Messager
 {
     public class Handler
     {

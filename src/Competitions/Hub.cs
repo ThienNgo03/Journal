@@ -6,12 +6,12 @@ public sealed class Hub : Microsoft.AspNetCore.SignalR.Hub
 {
     #region [ Fields ]
 
-    private readonly Databases.Campaigns.JournalDbContext _context;
+    private readonly JournalDbContext _context;
     #endregion
 
     #region [ CTors ]
 
-    public Hub(Databases.Campaigns.JournalDbContext context)
+    public Hub(JournalDbContext context)
     {
         _context = context;
     }
