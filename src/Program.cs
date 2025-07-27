@@ -11,6 +11,7 @@ builder.Services.AddControllers();
 builder.Services.AddDatabases(builder.Configuration);
 builder.Services.AddWolverines(builder.Configuration);
 builder.Services.AddJourneys(builder.Configuration);
+builder.Services.AddSignalR(x => x.EnableDetailedErrors = true);
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -20,5 +21,7 @@ app.UseHttpsRedirection();
 app.UseAuthorization();
 
 app.MapControllers();
+
+app.MapHub<Journal.Competitions.Hub>("competitions-hub");
 
 app.Run();

@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace Journal.Migrations
 {
     /// <inheritdoc />
-    public partial class Fix_TeamPool_Table : Migration
+    public partial class @new : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -136,6 +136,7 @@ namespace Journal.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    ParticipantId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     Position = table.Column<int>(type: "int", nullable: false),
                     CompetitionId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: false)
@@ -165,10 +166,10 @@ namespace Journal.Migrations
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     WorkoutId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    DateOfWeek = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    DateOfWeek = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Time = table.Column<DateTime>(type: "datetime2", nullable: false),
                     Rep = table.Column<int>(type: "int", nullable: false),
-                    HoldingTime = table.Column<int>(type: "int", nullable: false),
+                    HoldingTime = table.Column<TimeSpan>(type: "time", nullable: false),
                     Set = table.Column<int>(type: "int", nullable: false),
                     CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     LastUpdated = table.Column<DateTime>(type: "datetime2", nullable: false)
