@@ -24,16 +24,16 @@ namespace Journal.MeetUps
 
             if (parameters.Id.HasValue)
                 query = query.Where(x => x.Id == parameters.Id);
-            if (!String.IsNullOrEmpty(parameters.ParticipantIds))
+            if (!string.IsNullOrEmpty(parameters.ParticipantIds))
                 query = query.Where(x => x.ParticipantIds.Contains(parameters.ParticipantIds));
-            if (!String.IsNullOrEmpty(parameters.Title))
+            if (!string.IsNullOrEmpty(parameters.Title))
                 query = query.Where(x => x.Title.Contains(parameters.Title));
             if (parameters.DateTime.HasValue)
                 query = query.Where(x => x.DateTime == parameters.DateTime);
-            if (!String.IsNullOrEmpty(parameters.Location))
+            if (!string.IsNullOrEmpty(parameters.Location))
                 query = query.Where(x => x.Location.Contains(parameters.Location));
 
-            if (!String.IsNullOrEmpty(parameters.CoverImage))
+            if (!string.IsNullOrEmpty(parameters.CoverImage))
                 query = query.Where(x => x.CoverImage.Contains(parameters.CoverImage));
 
             if (parameters.CreatedDate.HasValue)

@@ -1,12 +1,16 @@
-﻿namespace Journal.MeetUps.Update
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace Journal.MeetUps.Update
 {
     public class Payload
     {
+        [Required]
         public Guid Id { get; set; }
-        public String ParticipantIds { get; set; }
-        public String Title { get; set; }
+        [Required]
+        public string ParticipantIds { get; set; }
+        public string Title { get; set; }
         public DateTime DateTime { get; set; }
-        public String Location { get; set; }
-        public String CoverImage { get; set; }
+        public string Location { get; set; }
+        public string CoverImage { get; set; }
     }
 }

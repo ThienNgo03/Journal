@@ -5,14 +5,14 @@ namespace Journal.MeetUps.Post
     public class Payload
     {
         [Required]
-        public String ParticipantIds { get; set; }
-        [Required]
-        public String Title { get; set; } = string.Empty;
-        [Required]
+        public string ParticipantIds { get; set; }
+
+        public string Title { get; set; } = string.Empty;
+
         public DateTime DateTime { get; set; }
-        [Required]
-        public String Location { get; set; } = string.Empty;
-        [Required]
-        public String CoverImage { get; set; } = string.Empty;
+
+        public string Location { get; set; } = string.Empty;
+
+        public string CoverImage { get; set; } = string.Empty;
     }
 }
