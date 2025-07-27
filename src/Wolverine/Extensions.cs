@@ -34,11 +34,10 @@ public static class Extensions
             options.PublishMessage<Journal.WeekPlans.Post.Messager.Message>().ToLocalQueue("weekplan-post");
             options.PublishMessage<Journal.WeekPlans.Update.Messager.Message>().ToLocalQueue("weekplan-update");
 
-<<<<<<< HEAD
             options.PublishMessage<Journal.MeetUps.Delete.Messager.Message>().ToLocalQueue("meetup-delete");
             options.PublishMessage<Journal.MeetUps.Post.Messager.Message>().ToLocalQueue("meetup-post");
             options.PublishMessage<Journal.MeetUps.Update.Messager.Message>().ToLocalQueue("meetup-update");
-=======
+           
             options.PublishMessage<Journal.Competitions.Delete.Messager.Message>().ToLocalQueue("competition-delete");
             options.PublishMessage<Journal.Competitions.Post.Messager.Message>().ToLocalQueue("competition-post");
             options.PublishMessage<Journal.Competitions.Put.Messager.Message>().ToLocalQueue("competition-update");
@@ -51,7 +50,6 @@ public static class Extensions
             options.PublishMessage<Journal.SoloPools.Post.Messager.Message>().ToLocalQueue("campaign-member-post");
             options.PublishMessage<Journal.SoloPools.Put.Messager.Message>().ToLocalQueue("campaign-member-update");
 
->>>>>>> 67d42dc43d74edf31be2320c818ea49f8d0bc162
         });
         return services;
 
