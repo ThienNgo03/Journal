@@ -1,10 +1,4 @@
-﻿using Journal.Databases.Campaigns;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using System.Reflection.Metadata;
-using Wolverine;
-
-namespace Journal.Notes
+﻿namespace Journal.Notes
 {
     [ApiController]
     [Route("Notes")]
@@ -74,7 +68,7 @@ namespace Journal.Notes
                 return NotFound();
             }
 
-            var note = new Databases.Campaigns.Tables.Note.Table //tạo một hàng dữ liệu mới
+            var note = new Databases.Journal.Tables.Note.Table //tạo một hàng dữ liệu mới
             {
                 Id = Guid.NewGuid(),
                 UserId = payload.UserId,

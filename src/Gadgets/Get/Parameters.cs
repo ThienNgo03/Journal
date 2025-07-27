@@ -1,6 +1,4 @@
-﻿using Journal.Databases.Campaigns.Tables.Gadget;
-
-namespace Journal.Gadgets.Get;
+﻿namespace Journal.Gadgets.Get;
 
 public class Parameters
 {

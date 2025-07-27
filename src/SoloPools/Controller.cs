@@ -1,20 +1,17 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-
-namespace Journal.SoloPools;
+﻿namespace Journal.SoloPools;
 
 [Route("api/SoloPools")]
 [ApiController]
 public class Controller : ControllerBase
 {
     #region [ Injection ]
-    private readonly Journal.Databases.Campaigns.JournalDbContext _dbContext;
+    private readonly JournalDbContext _dbContext;
     private readonly ILogger<Controller> _logger;
     private readonly IMessageBus _messageBus;
     #endregion
 
     #region [ CTor ]
-    public Controller(Journal.Databases.Campaigns.JournalDbContext dbContext, ILogger<Controller> logger, IMessageBus messageBus)
+    public Controller(JournalDbContext dbContext, ILogger<Controller> logger, IMessageBus messageBus)
     {
         _dbContext = dbContext;
         _logger = logger;
@@ -64,7 +61,7 @@ public class Controller : ControllerBase
         {
             return NotFound($"Competition with ID {payload.CompetitionId} not found.");
         }
-        var soloPool = new Journal.Databases.Campaigns.Tables.SoloPool.Table
+        var soloPool = new Databases.Journal.Tables.SoloPool.Table
         {
             Id = Guid.NewGuid(),
             WinnerId = payload.WinnerId,

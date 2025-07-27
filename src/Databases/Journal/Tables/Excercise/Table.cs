@@ -1,14 +1,12 @@
-﻿using Microsoft.Identity.Client;
-
-namespace Journal.Databases.Campaigns.Tables.Workout
+﻿namespace Journal.Databases.Journal.Tables.Excercise
 {
     public class Table
     {
         public Guid Id { get; set; }
 
-        public Guid ExerciseId { get; set; }
+        public string Name { get; set; }
 
-        public Guid UserId { get; set; }
+        public string Description { get; set; }
 
         public DateTime CreatedDate { get; set; }
 
