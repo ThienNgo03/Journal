@@ -25,7 +25,7 @@
                 query = query.Where(x => x.Id == parameters.Id);
             if (parameters.WorkoutId.HasValue)
                 query = query.Where(x => x.WorkoutId == parameters.WorkoutId);
-            if (parameters.DateOfWeek.HasValue)
+            if (!string.IsNullOrEmpty(parameters.DateOfWeek))
                 query = query.Where(x => x.DateOfWeek == parameters.DateOfWeek);
             if (parameters.Time.HasValue)
                 query = query.Where(x => x.Time == parameters.Time);
@@ -56,6 +56,7 @@
                 Id = Guid.NewGuid(),
                 WorkoutId = payload.WorkoutId,
                 DateOfWeek = payload.DateOfWeek,
+                //DateOfWeek = DateTime.UtcNow.DayOfWeek,
                 Time = payload.Time,
                 Rep = payload.Rep,
                 HoldingTime = payload.HoldingTime,
@@ -82,6 +83,7 @@
 
             weekPlan.WorkoutId = payload.WorkoutId;
             weekPlan.DateOfWeek = payload.DateOfWeek;
+            //weekPlan.DateOfWeek = DateTime.UtcNow.DayOfWeek;
             weekPlan.Time = payload.Time;
             weekPlan.Rep = payload.Rep;
             weekPlan.HoldingTime = payload.HoldingTime;
