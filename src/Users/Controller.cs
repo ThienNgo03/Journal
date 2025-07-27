@@ -1,9 +1,4 @@
-﻿using Journal.Databases.Campaigns;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using Wolverine;
-
-namespace Journal.Users;
+﻿namespace Journal.Users;
 
 [ApiController]
 [Route("Users")]
@@ -52,7 +47,7 @@ public class Controller : ControllerBase
 
     public async Task<IActionResult> Post([FromBody] Post.Payload payload)
     {
-        var user = new Databases.Campaigns.Tables.User.Table //tạo một hàng dữ liệu mới
+        var user = new Databases.Journal.Tables.User.Table //tạo một hàng dữ liệu mới
         {
             Id = Guid.NewGuid(),
             Name = payload.Name,

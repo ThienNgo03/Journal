@@ -50,7 +50,7 @@ namespace Journal.MeetUps
         [HttpPost]
         public async Task<IActionResult> Post([FromBody] Post.Payload payload)
         {
-            var meetUp = new Databases.Campaigns.Tables.MeetUp.Table
+            var meetUp = new Databases.Journal.Tables.MeetUp.Table
             {
                 Id = Guid.NewGuid(),
                 ParticipantIds = payload.ParticipantIds,

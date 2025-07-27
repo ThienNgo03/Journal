@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace Journal.Databases.Campaigns.Tables.MeetUp
+namespace Journal.Databases.Journal.Tables.MeetUp
 {
     public class Table
     {

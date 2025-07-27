@@ -1,4 +1,4 @@
-﻿namespace Journal.Databases.Campaigns.Tables.Gadget;
+﻿namespace Journal.Databases.Journal.Tables.Gadget;
 
 public class Table
 {

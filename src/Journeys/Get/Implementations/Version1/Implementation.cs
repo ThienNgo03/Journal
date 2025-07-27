@@ -1,7 +1,4 @@
-﻿using Journal.Databases.Campaigns;
-using Microsoft.EntityFrameworkCore;
-
-namespace Journal.Journeys.Get.Implementations.Version1;
+﻿namespace Journal.Journeys.Get.Implementations.Version1;
 
 public class Implementation : Interface
 {

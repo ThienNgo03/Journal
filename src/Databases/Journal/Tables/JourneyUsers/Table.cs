@@ -1,4 +1,4 @@
-﻿namespace Journal.Databases.Campaigns.Tables.JourneyUsers
+﻿namespace Journal.Databases.Journal.Tables.JourneyUsers
 {
     public class Table
     {

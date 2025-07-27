@@ -1,4 +1,4 @@
-﻿namespace Journal.Databases.Campaigns.Tables.WeekPlan
+﻿namespace Journal.Databases.Journal.Tables.WeekPlan
 {
     public class Table
     {

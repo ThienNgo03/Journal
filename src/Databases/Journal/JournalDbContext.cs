@@ -1,10 +1,4 @@
-﻿using Journal.Databases.Campaigns.Tables.Gadget;
-using Journal.Databases.Campaigns.Tables.Journey;
-using Journal.Databases.Campaigns.Tables.Note;
-using Journal.Databases.Campaigns.Tables.User;
-using Microsoft.EntityFrameworkCore;
-
-namespace Journal.Databases.Campaigns
+﻿namespace Journal.Databases.Journal
 {
     public class JournalDbContext : DbContext // database
     {

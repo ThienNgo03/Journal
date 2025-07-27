@@ -51,7 +51,7 @@
 
         public async Task<IActionResult> Post([FromBody] Post.Payload payload)
         {
-            var weekPlan = new Databases.Campaigns.Tables.WeekPlan.Table
+            var weekPlan = new Databases.Journal.Tables.WeekPlan.Table
             {
                 Id = Guid.NewGuid(),
                 WorkoutId = payload.WorkoutId,
