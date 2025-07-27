@@ -34,6 +34,10 @@ public static class Extensions
             options.PublishMessage<Journal.WeekPlans.Post.Messager.Message>().ToLocalQueue("weekplan-post");
             options.PublishMessage<Journal.WeekPlans.Update.Messager.Message>().ToLocalQueue("weekplan-update");
 
+            options.PublishMessage<Journal.MeetUps.Delete.Messager.Message>().ToLocalQueue("meetup-delete");
+            options.PublishMessage<Journal.MeetUps.Post.Messager.Message>().ToLocalQueue("meetup-post");
+            options.PublishMessage<Journal.MeetUps.Update.Messager.Message>().ToLocalQueue("meetup-update");
+           
             options.PublishMessage<Journal.Competitions.Delete.Messager.Message>().ToLocalQueue("competition-delete");
             options.PublishMessage<Journal.Competitions.Post.Messager.Message>().ToLocalQueue("competition-post");
             options.PublishMessage<Journal.Competitions.Put.Messager.Message>().ToLocalQueue("competition-update");

@@ -33,6 +33,8 @@
 //-Id1-CompetionId2-Viet-Khoa
 
 
+//Game(name, maximum player)
+
 //WinnerPool(Id, CompetionId, UserId, Position)
 //-Id1-CompetionId1-Thien-1
 //-Id2-CompetionId1-Khoa-2
